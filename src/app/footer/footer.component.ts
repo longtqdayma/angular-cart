@@ -1,7 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { registerLocaleData } from '@angular/common';
-import localeFr from '@angular/common/locales/vi';
-registerLocaleData(localeFr, 'vi');
+
 
 @Component({
   selector: "app-footer",
@@ -9,10 +7,15 @@ registerLocaleData(localeFr, 'vi');
   styleUrls: ["./footer.component.css"]
 })
 export class FooterComponent implements OnInit {
+  promoCode:string='';
   subtotal: number = 219799;
   tax: number = 709;
   total: number = 28979;
   constructor() {}
 
   ngOnInit() {}
+
+  applyPromoCode(){
+    console.log(this.promoCode);
+  }
 }

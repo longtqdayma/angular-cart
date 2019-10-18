@@ -34,7 +34,12 @@ export class ItemComponent implements OnInit {
   removeProduct(id: number) {
     const index = this.products.findIndex(product => product.id === id);
     if (index !== -1) {
+      const objec = this.products[index];
       this.products.splice(index, 1);
+      //alert(objec);
     }
+  }
+  inputQuantity(id: number, value: string) {
+    console.log( typeof( value));
   }
 }
