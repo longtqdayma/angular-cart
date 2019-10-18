@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit,Input } from "@angular/core";
 
 @Component({
   selector: "app-head",
@@ -6,7 +6,7 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./head.component.css"]
 })
 export class HeadComponent implements OnInit {
-  numberItem: number = 36;
+  @Input() numberItem: number;
   constructor() {}
 
   ngOnInit() {}

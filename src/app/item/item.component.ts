@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit ,Input} from "@angular/core";
 import { Product } from "../product.model";
 
 @Component({
@@ -7,9 +7,11 @@ import { Product } from "../product.model";
   styleUrls: ["./item.component.css"]
 })
 export class ItemComponent implements OnInit {
+  @Input() products : Product[];
   constructor() {}
 
   ngOnInit() {}
+  /*
   products: Product[] = [
     {
       id: 1,
@@ -29,7 +31,7 @@ export class ItemComponent implements OnInit {
       price: 999056,
       quantity: 1
     }
-  ];
+  ];*/
 
   removeProduct(id: number) {
     const index = this.products.findIndex(product => product.id === id);
@@ -40,6 +42,6 @@ export class ItemComponent implements OnInit {
     }
   }
   inputQuantity(id: number, value: string) {
-    console.log( typeof( value));
+    console.log(value);
   }
 }
