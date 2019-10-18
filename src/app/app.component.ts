@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
-import {Product} from "./product.model";
+import { Product } from "./product.model";
+import { FooterModel } from "./footer.model";
 
 @Component({
   selector: "app-root",
@@ -8,7 +9,12 @@ import {Product} from "./product.model";
 })
 export class AppComponent {
   title = "example ICT";
-
+  footerModel: FooterModel = {
+    promoCode: "",
+    subtotal: 219799,
+    tax: 709,
+    total: 28979
+  };
   products: Product[] = [
     {
       id: 1,
