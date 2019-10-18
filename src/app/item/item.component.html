@@ -17,10 +17,11 @@
       </div>
     </div>
 
+    
     <div class="col right">
       <div class="quantity">
-        <input #inputElement type="number" class="quantity" step="1" [value]="product.quantity" 
-        (input)="changeQuantity(product.id,inputElement)"/>
+        <input id="inputElement" type="number" class="quantity" step="1" [value]="product.quantity" 
+        (input)="inputQuantity(product.id,inputElement)"/>
       </div>
 
       <div class="remove">
