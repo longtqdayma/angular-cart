@@ -1,12 +1,13 @@
 <main>
       <header class="container">
-        <app-head [numberItem]="516"></app-head>
+        <app-head [numberItem]="numberItem"></app-head>
       </header>
       
       <section class="container">
        
 
-          <app-item [products]="products"></app-item>
+          <app-item [products]="products" (changeQuantity)="onHandleChangeQuantity($event)"
+          (onRemoveProduct)="onHandleRemoveProduct($event)"></app-item>
 
           
       

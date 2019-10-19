@@ -1,4 +1,4 @@
-import { Component, OnInit ,Input} from "@angular/core";
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { Product } from "../product.model";
 
 @Component({
@@ -7,10 +7,19 @@ import { Product } from "../product.model";
   styleUrls: ["./item.component.css"]
 })
 export class ItemComponent implements OnInit {
-  @Input() products : Product[];
-  constructor() {}
+  constructor() {
+    let product: Product;
+  }
 
   ngOnInit() {}
+
+  @Input() products: Product[];
+  @Output() changeQuantity = new EventEmitter();
+  @Output() onRemoveProduct = new EventEmitter();
+
+  // onChangeQuantity() {
+  //   this.changeQuantity.emit("Data input Quantity");
+  // }
   /*
   products: Product[] = [
     {
@@ -34,14 +43,21 @@ export class ItemComponent implements OnInit {
   ];*/
 
   removeProduct(id: number) {
-    const index = this.products.findIndex(product => product.id === id);
-    if (index !== -1) {
-      const objec = this.products[index];
-      this.products.splice(index, 1);
-      //alert(objec);
-    }
+    //const index = this.products.findIndex(product => product.id === id);
+    //const objec = this.products[index];
+    this.onRemoveProduct.emit(id);
+    //if (index !== -1) {
+    //const objec = this.products[index];
+    //this.products.splice(index, 1);
+    //alert(objec);
+    //}
   }
+
   inputQuantity(id: number, value: string) {
+    const index = this.products.findIndex(product => product.id === id);
+    const objec = this.products[index];
+    objec.quantity = +value;
+    this.changeQuantity.emit(objec);
     console.log(value);
   }
 }
