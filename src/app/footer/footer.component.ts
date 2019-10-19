@@ -1,4 +1,4 @@
-import { Component, OnInit,Input } from "@angular/core";
+import { Component, OnInit,Input,Output,EventEmitter } from "@angular/core";
 import { FooterModel } from '../footer.model';
 
 
@@ -9,6 +9,7 @@ import { FooterModel } from '../footer.model';
 })
 export class FooterComponent implements OnInit {
   @Input() footerModel : FooterModel;
+  @Output() onPromoCode = new EventEmitter();
   // promoCode:string='';
   // subtotal: number = 219799;
   // tax: number = 709;
@@ -18,6 +19,7 @@ export class FooterComponent implements OnInit {
   ngOnInit() {}
 
   applyPromoCode(){
-    console.log(this.footerModel.promoCode);
+    //console.log(this.footerModel.promoCode);
+    this.onPromoCode.emit(this.footerModel.promoCode);
   }
 }
