@@ -12,7 +12,7 @@
     <li>
       Tax <span>{{ footerModel.tax | currency :'VND':'symbol':'1.0-0':'vi'}}</span>
     </li>
-    <li>
+    <li *ngIf="footerModel.discount > 0">
       Discount <span>{{ footerModel.discount| currency :'VND':'symbol':'1.0-0':'vi'}}</span>
     </li>
     <li class="total">

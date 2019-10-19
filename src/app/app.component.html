@@ -1,19 +1,24 @@
 <main>
-      <header class="container">
-        <app-head [numberItem]="numberItem"></app-head>
-      </header>
-      
-      <section class="container">
-       
+  <header class="container">
+    <app-head [numberItem]="numberItem"></app-head>
+  </header>
 
-          <app-item [products]="products" (changeQuantity)="onHandleChangeQuantity($event)"
-          (onRemoveProduct)="onHandleRemoveProduct($event)"></app-item>
+  <section class="container">
+    <app-item
+      [products]="products"
+      (changeQuantity)="onHandleChangeQuantity($event)"
+      (onRemoveProduct)="onHandleRemoveProduct($event)"
+    ></app-item>
+  </section>
 
-          
-      
-      </section>
-
-      <section class="container">
-        <app-footer [footerModel]="footerModel" (onPromoCode)="onPromoCode($event)"></app-footer>
-      </section>
-    </main>
+  <section class="container">
+    <app-footer
+      *ngIf="products.length > 0"
+      [footerModel]="footerModel"
+      (onPromoCode)="onPromoCode($event)"
+    ></app-footer>
+    <div *ngIf="products.length === 0">
+      <h1>Hiện không có sản phẩm nào trong giỏ hàng!</h1>
+    </div>
+  </section>
+</main>
