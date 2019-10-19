@@ -2,6 +2,7 @@ import { Component, OnInit, DoCheck } from "@angular/core";
 import { Product } from "./product.model";
 import { FooterModel } from "./footer.model";
 import { ProductService } from "./product.service";
+import { PromoService } from "./promo.service";
 
 @Component({
   selector: "app-root",
@@ -15,10 +16,14 @@ export class AppComponent implements OnInit, DoCheck {
     promoCode: "",
     subtotal: 0,
     tax: 0,
-    total: 0
+    total: 0,
+    discount: 0
   };
   products: Product[] = [];
-  constructor(private productService: ProductService) {}
+  constructor(
+    private productService: ProductService,
+    private promoService: PromoService
+  ) {}
 
   ngOnInit() {
     this.products = this.productService.getAllProduct();
@@ -35,7 +40,11 @@ export class AppComponent implements OnInit, DoCheck {
     this.numberItem = count;
     this.footerModel.subtotal = amout;
     this.footerModel.tax = amout * (10 / 100);
-    this.footerModel.total = this.footerModel.subtotal + this.footerModel.tax;
+    
+    //this.promoService.applyPromoCode(this.footerModel.promoCode, this.footerModel);
+
+    this.footerModel.total =
+      this.footerModel.subtotal + this.footerModel.tax - this.footerModel.discount;
   }
 
   onHandleRemoveProduct(id: number) {
@@ -64,6 +73,8 @@ export class AppComponent implements OnInit, DoCheck {
   }
 
   onPromoCode(code: string) {
-    console.log(code);
+    this.promoService.applyPromoCode(code, this.footerModel);
+    //this.footerModel.total = this.footerModel.total - subnew;
+    console.log(this.footerModel);
   }
 }
