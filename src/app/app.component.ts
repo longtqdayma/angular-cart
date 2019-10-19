@@ -1,6 +1,7 @@
 import { Component, OnInit, DoCheck } from "@angular/core";
 import { Product } from "./product.model";
 import { FooterModel } from "./footer.model";
+import { ProductService } from "./product.service";
 
 @Component({
   selector: "app-root",
@@ -16,64 +17,50 @@ export class AppComponent implements OnInit, DoCheck {
     tax: 0,
     total: 0
   };
-  ngOnInit() {}
+  products: Product[] = [];
+  constructor(private productService: ProductService) {}
+
+  ngOnInit() {
+    this.products = this.productService.getAllProduct();
+  }
 
   ngDoCheck() {
-    this.numberItem = 0;
     let amout = 0;
+    let count = 0;
     //this.numberItem = this.numberItem + data.quantity;
     this.products.forEach(item => {
-      this.numberItem += item.quantity;
-      amout = item.quantity * item.price;
+      count += item.quantity;
+      amout += item.quantity * item.price;
     });
+    this.numberItem = count;
     this.footerModel.subtotal = amout;
-    this.footerModel.tax = amout * 0.1;
+    this.footerModel.tax = amout * (10 / 100);
     this.footerModel.total = this.footerModel.subtotal + this.footerModel.tax;
   }
 
-  products: Product[] = [
-    {
-      id: 1,
-      name: "PRODUCT ITEM NUMBER 1",
-      description: "Description for product item number 1",
-      image:
-        "https://salt.tikicdn.com/cache/w1200/ts/product/24/9c/d8/625ca95a978775e4b6ce04557f985fca.jpg",
-      price: 5990871,
-      quantity: 12
-    },
-    {
-      id: 2,
-      name: "PRODUCT ITEM NUMBER 2",
-      description: "Description for product item number 2",
-      image:
-        "https://bizweb.dktcdn.net/thumb/1024x1024/100/305/872/products/macbook-air-mmgg2-1-d3ec85a4-ceb3-46d1-9a77-5e350213182c.jpg?v=1524200478953",
-      price: 9990561,
-      quantity: 1
-    }
-  ];
-
   onHandleRemoveProduct(id: number) {
-    const index = this.products.findIndex(product => product.id === id);
-    const objec = this.products[index];
-    if (index !== -1) {
-      //const objec = this.products[index];
-      this.products.splice(index, 1);
-      //this.numberItem = this.numberItem - objec.quantity;
-      //alert(objec);
-    }
+    this.productService.removeProduct(id);
+    //const index = this.products.findIndex(product => product.id === id);
+    //const objec = this.products[index];
+    //if (index !== -1) {
+    //const objec = this.products[index];
+    //this.products.splice(index, 1);
+    //this.numberItem = this.numberItem - objec.quantity;
+    //alert(objec);
+    //}
   }
 
   onHandleChangeQuantity(data: Product) {
-    console.log("Quantiry old ", this.numberItem);
-
-    for (let i = 0; i < this.products.length; ++i) {
-      this.numberItem += this.products[i].quantity;
-      //this.footerModel.subtotal +=
-      //  this.products[i].quantity * this.products[i].price;
-      //this.footerModel.tax = this.footerModel.subtotal * 0.1;
-      //this.footerModel.total = this.footerModel.subtotal + this.footerModel.tax;
-    }
-    console.log("Quantiry new ", data.quantity);
+    //console.log("Quantiry old ", this.numberItem);
+    this.numberItem = this.productService.changeQuantiryProduct();
+    //for (let i = 0; i < this.products.length; ++i) {
+    //this.numberItem += this.products[i].quantity;
+    //this.footerModel.subtotal +=
+    //  this.products[i].quantity * this.products[i].price;
+    //this.footerModel.tax = this.footerModel.subtotal * 0.1;
+    //this.footerModel.total = this.footerModel.subtotal + this.footerModel.tax;
+    //}
+    //console.log("Quantiry new ", data.quantity);
   }
 
   onPromoCode(code: string) {
