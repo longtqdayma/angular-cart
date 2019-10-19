@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, DoCheck } from "@angular/core";
 import { Product } from "./product.model";
 import { FooterModel } from "./footer.model";
 
@@ -7,7 +7,7 @@ import { FooterModel } from "./footer.model";
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"]
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, DoCheck {
   title = "example ICT";
   numberItem: number = 0;
   footerModel: FooterModel = {
@@ -16,8 +16,19 @@ export class AppComponent implements OnInit {
     tax: 0,
     total: 0
   };
-  ngOnInit() {
-    this.onChangeInfo();
+  ngOnInit() {}
+
+  ngDoCheck() {
+    this.numberItem = 0;
+    let amout = 0;
+    //this.numberItem = this.numberItem + data.quantity;
+    this.products.forEach(item => {
+      this.numberItem += item.quantity;
+      amout = item.quantity * item.price;
+    });
+    this.footerModel.subtotal = amout;
+    this.footerModel.tax = amout * 0.1;
+    this.footerModel.total = this.footerModel.subtotal + this.footerModel.tax;
   }
 
   products: Product[] = [
@@ -47,36 +58,22 @@ export class AppComponent implements OnInit {
     if (index !== -1) {
       //const objec = this.products[index];
       this.products.splice(index, 1);
-      this.numberItem = this.numberItem - objec.quantity;
+      //this.numberItem = this.numberItem - objec.quantity;
       //alert(objec);
     }
   }
 
   onHandleChangeQuantity(data: Product) {
     console.log("Quantiry old ", this.numberItem);
-    this.onChangeInfo();
+
     for (let i = 0; i < this.products.length; ++i) {
-      //this.numberItem += this.products[i].quantity;
+      this.numberItem += this.products[i].quantity;
       //this.footerModel.subtotal +=
       //  this.products[i].quantity * this.products[i].price;
       //this.footerModel.tax = this.footerModel.subtotal * 0.1;
       //this.footerModel.total = this.footerModel.subtotal + this.footerModel.tax;
     }
     console.log("Quantiry new ", data.quantity);
-  }
-
-  onChangeInfo() {
-    this.numberItem = 0;
-    this.footerModel.subtotal = 0;
-    this.footerModel.tax = 0;
-    this.footerModel.total = 0;
-    //this.numberItem = this.numberItem + data.quantity;
-    this.products.forEach(item => {
-      this.numberItem += item.quantity;
-      this.footerModel.subtotal += item.quantity * item.price;
-      this.footerModel.tax = this.footerModel.subtotal * 0.1;
-      this.footerModel.total = this.footerModel.subtotal + this.footerModel.tax;
-    });
   }
 
   onPromoCode(code: string) {
